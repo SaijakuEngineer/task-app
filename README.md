@@ -1,5 +1,5 @@
 # タスク管理アプリ
-
+![スクリーンショット 2021-01-27 17.03.07.png](https://qiita-image-store.s3.ap-northeast-1.amazonaws.com/0/429158/aa27f6c7-223a-e8b5-404b-b430d4a03263.png)
 ## 主な機能
 - タスクの登録
 - タスクの編集
