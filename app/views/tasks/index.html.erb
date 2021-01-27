@@ -1,0 +1,77 @@
+<%= form_with model: @task, url: task_create_path, method: :post, local: true do |f| %>
+  <div class='row'>
+    <div class='col-5'>
+      <div class='form-group'>
+        <%= f.label :title %>
+        <%= f.text_field :title, class: 'form-control' %>
+      </div>
+    </div>
+    <div class='col-5'>
+      <div class='form-group'>
+        <%= f.label :description%>
+        <%= f.text_field :description, class: 'form-control' %>
+      </div>
+    </div>
+    <div class='col-2 align-self-end'>
+      <div class='form-group'>
+        <%= f.submit '登録', class: 'btn btn-primary' %>
+      </div>
+    </div>
+  </div>
+<% end %>
+<h2>未達成タスク</h2>
+<%= form_with url: task_update_path, method: :patch, local: true do |f| %>
+  <table class="table table-hover">
+    <thead>
+      <tr>
+        <th></th>
+        <th>ID</th>
+        <th>タイトル</th>
+        <th>説明</th>
+        <th>編集</th>
+        <th>削除</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% @not_done_tasks.each do |task| %>
+        <tr>
+          <td><%= f.check_box :is_done, name: "is_done[#{task.id}]",class: 'form-control', checked: task.is_done %></td>
+          <td><%= task.id %></td>
+          <td><%= task.title %></td>
+          <td><%= task.description %></td>
+          <td><button type="button" class="btn btn-success"  data-toggle="modal" data-target="#taskEditModal<%= task.id %>">編集</button></td>
+          <td><%= link_to "削除", task_delete_path(task.id), method: :delete, data: { confirm: '削除しますか？' }, class: 'btn btn-danger' %></td>
+        </tr>
+        <%= render 'tasks/edit_modal', task: task %>
+      <% end %>
+    </tbody>
+  </table>
+  <%= f.submit '更新', class: 'btn btn-primary', style: 'margin-bottom: 2rem;' %>
+<% end %>
+<h2>達成済みタスク</h2>
+<%= form_with url: task_update_path, method: :patch, local: true do |f| %>
+  <table class="table table-hover">
+    <thead>
+      <tr>
+        <th></th>
+        <th>ID</th>
+        <th>タイトル</th>
+        <th>説明</th>
+        <th>削除</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% @done_tasks.each do |task| %>
+        <tr style='background-color: #CCCCCC;'>
+          <td><%= f.check_box :is_done, name: "is_done[#{task.id}]",class: 'form-control', checked: task.is_done %></td>
+          <td><%= task.id %></td>
+          <td><%= task.title %></td>
+          <td><%= task.description %></td>
+          <td><%= link_to "削除", task_delete_path(task.id), method: :delete, data: { confirm: '削除しますか？' }, class: 'btn btn-danger' %></td>
+        </tr>
+        <%= render 'tasks/edit_modal', task: task %>
+      <% end %>
+    </tbody>
+  </table>
+  <%= f.submit '更新', class: 'btn btn-primary', style: 'margin-bottom: 2rem;' %>
+<% end %>
